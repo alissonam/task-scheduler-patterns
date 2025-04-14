@@ -3,10 +3,12 @@ package com.example.scheduler.service;
 import com.example.scheduler.memento.TaskHistory;
 import com.example.scheduler.memento.TaskMemento;
 import com.example.scheduler.model.Task;
+import com.example.scheduler.observer.TaskObserver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 @Service
@@ -14,6 +16,7 @@ import java.util.Queue;
 public class TaskScheduler {
 
     private final TaskHistory taskHistory;
+    private final List<TaskObserver> observers;
     private final Queue<Task> taskQueue = new LinkedList<>();
 
     public void schedule(Task task) {
@@ -28,6 +31,7 @@ public class TaskScheduler {
             taskHistory.save(new TaskMemento(task.getId(), task.getCommand()));
             System.out.println("Executando tarefa: " + task.getId());
             task.getCommand().execute();
+            notifyObservers(task);
         } else {
             System.out.println("Nenhuma tarefa na fila.");
         }
@@ -42,5 +46,9 @@ public class TaskScheduler {
         } else {
             System.out.println("Nada para desfazer.");
         }
+    }
+
+    private void notifyObservers(Task task) {
+        observers.forEach(observer -> observer.onTaskExecuted(task));
     }
 }
