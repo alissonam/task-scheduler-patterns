@@ -65,8 +65,8 @@ src/main/java/com/example/scheduler/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/alissonam/task-scheduler-patterns
+cd task-scheduler-patterns
 ```
 
 ### 2. Compile e execute com Maven
