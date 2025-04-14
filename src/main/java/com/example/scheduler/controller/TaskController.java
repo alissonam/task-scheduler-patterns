@@ -27,4 +27,11 @@ public class TaskController {
         scheduler.runNext();
         return ResponseEntity.ok("Tentativa de execução da próxima tarefa.");
     }
+
+    @PostMapping("/undo")
+    public ResponseEntity<String> undoLast() {
+        scheduler.undoLast();
+        return ResponseEntity.ok("Tentativa de desfazer a última tarefa.");
+    }
+
 }
